@@ -11,12 +11,12 @@ function read_segment() {
 }
 
 function read_tar() {
-  local tarfile=$1
+  local tarfile=$(realpath $1)
   maxGen=0
   maxCompacted=0
 
   mkdir tmp-tar && cd tmp-tar
-  tar -xf ../$tarfile
+  tar -xf $tarfile
   for segment in $(ls | grep -e ".\{19\}a.\{25\}"); do
     read_segment $segment
     if [ "$gen" -gt "$maxGen" ]; then maxGen=$gen ; fi
