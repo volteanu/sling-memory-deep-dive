@@ -58,10 +58,21 @@ function play_vmwatch() {
     #clear
     echo -en "\033[2J"
     print_vmwatch $logfile
-    echo $logfile
+    echo $(basename $logfile)
     sleep 0.4
   done
 }
 
-play_vmwatch $@
+function save_vmwatch() {
+  for logfile in $@
+  do
+    # redirect stdout
+    exec >> $(basename $logfile).coloured
+    print_vmwatch $logfile
+    echo $(basename $logfile)
+  done
+}
+
+#play_vmwatch $@
+save_vmwatch $@
 
