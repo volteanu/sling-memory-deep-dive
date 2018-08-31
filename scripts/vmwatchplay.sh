@@ -38,11 +38,12 @@ get_tar_colors generations.log
 
 function print_vmwatch() {
   while read -r line; do
-    #echo "line is: $line"
     tar=$(echo $line | cut -d' ' -f1)
-    #echo "tar=$tar"
+
+    # make each line fixed width
+    printf -v line %-100.100s "$line"
+
     if [[ "$tar" == data0* ]] ; then
-      #echo "tarcolor=${tarcolors[$tar]}"
       [ ${tarcolors[$tar]+isset} ] && echo -e "\e[${tarcolors[$tar]}m${line}\e[0m" || echo "$line"
     else
       echo "$line"
