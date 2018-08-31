@@ -8,9 +8,9 @@ function get_tar_colors()
 
   while read -r line; do
     tar=$(echo $line | cut -d' ' -f1)
-    generation=$(echo $line | cut -d' ' -f2)
+    generation=$(echo $line | tr -s ' ' | cut -d' ' -f2)
     geneven=$(( generation & 0x1 ))
-    compacted=$(echo $line | cut -d' ' -f3)
+    compacted=$(echo $line | tr -s ' ' | cut -d' ' -f3)
     if [ "$geneven" -eq "1" ]; then
       if [ "$compacted" -eq "1" ]; then
         tarcolors[$tar]="30;43"
