@@ -32,7 +32,7 @@ function get_tar_colors()
   done < $generationsfile
 }
 
-get_tar_colors generations.log
+#get_tar_colors generations.log
 
 #echo "after get_tar_colors ${tarcolors[data00074a.tar]}"
 
@@ -54,14 +54,17 @@ function print_vmwatch() {
 #print_vmwatch "../vmwatch-1534907881.log"
 
 function play_vmwatch() {
-  for logfile in $@
-  do
-    #clear
-    echo -en "\033[2J"
-    print_vmwatch $logfile
-    echo $(basename $logfile)
-    sleep 0.4
+  clear
+  tput civis # hide cursor
+  for f in $@ 
+  do 
+    [ "$f" = "vmtouch-2018-09-05-02-20-01.log.coloured" ] && tput clear 
+    tput cup 0 0
+    ghead -n-5 $f | paste -d "\0" - - 
+    tail -5 $f
+    sleep 0.2
   done
+  tput cnorm # redisplay cursor
 }
 
 function save_vmwatch() {
@@ -74,6 +77,6 @@ function save_vmwatch() {
   done
 }
 
-#play_vmwatch $@
-save_vmwatch $@
+play_vmwatch $@
+#save_vmwatch $@
 
